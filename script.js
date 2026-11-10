@@ -74,41 +74,9 @@ reportForm.addEventListener('submit', async event => {
   }
 });
 
-// Frontend-only chat demo. Messages stay in this browser page and are not delivered to an agent.
-const chatPanel = document.getElementById('chatPanel');
-const chatLauncher = document.getElementById('chatLauncher');
-const chatBody = document.getElementById('chatBody');
-const chatInput = document.getElementById('chatInput');
-
-function openChat() {
-  chatPanel.classList.add('open');
-  chatPanel.setAttribute('aria-hidden', 'false');
-  chatInput.focus();
-}
-function closeChat() {
-  chatPanel.classList.remove('open');
-  chatPanel.setAttribute('aria-hidden', 'true');
-}
-chatLauncher.addEventListener('click', openChat);
-document.getElementById('closeChat').addEventListener('click', closeChat);
-document.getElementById('openChatFromCard').addEventListener('click', openChat);
-
-document.getElementById('chatForm').addEventListener('submit', event => {
-  event.preventDefault();
-  const value = chatInput.value.trim();
-  if (!value) return;
-  const bubble = document.createElement('div');
-  bubble.className = 'chat-bubble user-message';
-  bubble.textContent = value;
-  chatBody.appendChild(bubble);
-  chatInput.value = '';
-  chatBody.scrollTop = chatBody.scrollHeight;
-
-  const reply = document.createElement('div');
-  reply.className = 'chat-bubble agent-message';
-  reply.textContent = 'Thanks for reaching out! This is a preview chat. Connect a realtime backend and support inbox to receive a real agent reply.';
-  window.setTimeout(() => {
-    chatBody.appendChild(reply);
-    chatBody.scrollTop = chatBody.scrollHeight;
-  }, 650);
+// "Chat with support" button opens the Tawk.to live chat widget.
+document.getElementById('openChatFromCard').addEventListener('click', () => {
+  if (window.Tawk_API && typeof Tawk_API.maximize === 'function') {
+    Tawk_API.maximize();
+  }
 });
